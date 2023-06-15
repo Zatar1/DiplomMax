@@ -1,0 +1,21 @@
+private static DaliAftotransEntities _context;
+        public DaliAftotransEntities()
+            : base("name=DaliAftotransEntities")
+        {
+        }
+        public static DaliAftotransEntities GetContext()
+        {
+
+            if (_context == null)
+                _context = new DaliAftotransEntities();
+
+            return _context;
+        }
+
+public string FIO
+        {
+            get
+            {
+                return $"{F} {I} {O}";
+            }
+        }

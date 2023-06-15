@@ -1,0 +1,89 @@
+USE [DaliAftotrans]
+GO
+/****** Object:  Table [dbo].[Sredstva]    Script Date: 12.06.2023 23:03:25 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Sredstva](
+	[IdZapisi] [int] IDENTITY(1,1) NOT NULL,
+	[IdVoditeli] [int] NOT NULL,
+	[IdUser] [int] NOT NULL,
+	[Money] [money] NOT NULL,
+	[Data] [datetime] NOT NULL,
+ CONSTRAINT [PK_Sredstva] PRIMARY KEY CLUSTERED 
+(
+	[IdZapisi] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[User]    Script Date: 12.06.2023 23:03:25 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[User](
+	[IdUser] [int] IDENTITY(1,1) NOT NULL,
+	[F] [nvarchar](50) NOT NULL,
+	[I] [nvarchar](50) NOT NULL,
+	[O] [nvarchar](50) NULL,
+	[Login] [nvarchar](50) NOT NULL,
+	[Password] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_User] PRIMARY KEY CLUSTERED 
+(
+	[IdUser] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Voditeli]    Script Date: 12.06.2023 23:03:25 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Voditeli](
+	[IdVoditeli] [int] IDENTITY(1,1) NOT NULL,
+	[F] [nvarchar](50) NOT NULL,
+	[I] [nvarchar](50) NOT NULL,
+	[O] [nvarchar](50) NULL,
+	[AutoPrava] [nvarchar](10) NOT NULL,
+	[Active] [bit] NOT NULL,
+ CONSTRAINT [PK_Voditeli] PRIMARY KEY CLUSTERED 
+(
+	[IdVoditeli] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[Sredstva] ON 
+GO
+INSERT [dbo].[Sredstva] ([IdZapisi], [IdVoditeli], [IdUser], [Money], [Data]) VALUES (1, 1, 1, 34325.0300, CAST(N'2023-05-20T00:00:00.000' AS DateTime))
+GO
+INSERT [dbo].[Sredstva] ([IdZapisi], [IdVoditeli], [IdUser], [Money], [Data]) VALUES (2, 2, 1, 4325.0000, CAST(N'2023-05-20T00:00:00.000' AS DateTime))
+GO
+SET IDENTITY_INSERT [dbo].[Sredstva] OFF
+GO
+SET IDENTITY_INSERT [dbo].[User] ON 
+GO
+INSERT [dbo].[User] ([IdUser], [F], [I], [O], [Login], [Password]) VALUES (1, N'1', N'1', N'1', N'admin', N'123')
+GO
+INSERT [dbo].[User] ([IdUser], [F], [I], [O], [Login], [Password]) VALUES (2, N'2', N'2', N'2', N'2', N'123456')
+GO
+SET IDENTITY_INSERT [dbo].[User] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Voditeli] ON 
+GO
+INSERT [dbo].[Voditeli] ([IdVoditeli], [F], [I], [O], [AutoPrava], [Active]) VALUES (1, N'Дьяченко', N'Максим', N'Алексеевич', N'8989888888', 0)
+GO
+INSERT [dbo].[Voditeli] ([IdVoditeli], [F], [I], [O], [AutoPrava], [Active]) VALUES (2, N'Бабенко', N'Евгении', N'Николаевич', N'4325342627', 1)
+GO
+SET IDENTITY_INSERT [dbo].[Voditeli] OFF
+GO
+ALTER TABLE [dbo].[Sredstva]  WITH CHECK ADD  CONSTRAINT [FK_Sredstva_User] FOREIGN KEY([IdUser])
+REFERENCES [dbo].[User] ([IdUser])
+GO
+ALTER TABLE [dbo].[Sredstva] CHECK CONSTRAINT [FK_Sredstva_User]
+GO
+ALTER TABLE [dbo].[Sredstva]  WITH CHECK ADD  CONSTRAINT [FK_Sredstva_Voditeli] FOREIGN KEY([IdVoditeli])
+REFERENCES [dbo].[Voditeli] ([IdVoditeli])
+GO
+ALTER TABLE [dbo].[Sredstva] CHECK CONSTRAINT [FK_Sredstva_Voditeli]
+GO

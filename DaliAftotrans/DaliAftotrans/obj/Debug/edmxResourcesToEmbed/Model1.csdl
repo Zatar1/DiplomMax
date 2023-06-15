@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DaliAftotransModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Sredstva">
+    <Key>
+      <PropertyRef Name="IdZapisi" />
+    </Key>
+    <Property Name="IdZapisi" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdVoditeli" Type="Int32" Nullable="false" />
+    <Property Name="IdUser" Type="Int32" Nullable="false" />
+    <Property Name="Money" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <Property Name="Data" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="User" Relationship="Self.FK_Sredstva_User" FromRole="Sredstva" ToRole="User" />
+    <NavigationProperty Name="Voditeli" Relationship="Self.FK_Sredstva_Voditeli" FromRole="Sredstva" ToRole="Voditeli" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="IdUser" />
+    </Key>
+    <Property Name="IdUser" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="F" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="I" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="O" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Sredstvas" Relationship="Self.FK_Sredstva_User" FromRole="User" ToRole="Sredstva" />
+  </EntityType>
+  <EntityType Name="Voditeli">
+    <Key>
+      <PropertyRef Name="IdVoditeli" />
+    </Key>
+    <Property Name="IdVoditeli" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="F" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="I" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="O" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="AutoPrava" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Active" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Sredstvas" Relationship="Self.FK_Sredstva_Voditeli" FromRole="Voditeli" ToRole="Sredstva" />
+  </EntityType>
+  <Association Name="FK_Sredstva_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Sredstva" Type="Self.Sredstva" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="IdUser" />
+      </Principal>
+      <Dependent Role="Sredstva">
+        <PropertyRef Name="IdUser" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sredstva_Voditeli">
+    <End Role="Voditeli" Type="Self.Voditeli" Multiplicity="1" />
+    <End Role="Sredstva" Type="Self.Sredstva" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Voditeli">
+        <PropertyRef Name="IdVoditeli" />
+      </Principal>
+      <Dependent Role="Sredstva">
+        <PropertyRef Name="IdVoditeli" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DaliAftotransEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Sredstvas" EntityType="Self.Sredstva" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <EntitySet Name="Voditelis" EntityType="Self.Voditeli" />
+    <AssociationSet Name="FK_Sredstva_User" Association="Self.FK_Sredstva_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Sredstva" EntitySet="Sredstvas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sredstva_Voditeli" Association="Self.FK_Sredstva_Voditeli">
+      <End Role="Voditeli" EntitySet="Voditelis" />
+      <End Role="Sredstva" EntitySet="Sredstvas" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

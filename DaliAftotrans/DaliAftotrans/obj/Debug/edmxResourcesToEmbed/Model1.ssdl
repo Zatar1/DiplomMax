@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище DaliAftotransModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Sredstva">
+    <Key>
+      <PropertyRef Name="IdZapisi" />
+    </Key>
+    <Property Name="IdZapisi" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdVoditeli" Type="int" Nullable="false" />
+    <Property Name="IdUser" Type="int" Nullable="false" />
+    <Property Name="Money" Type="money" Nullable="false" />
+    <Property Name="Data" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="IdUser" />
+    </Key>
+    <Property Name="IdUser" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="F" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="I" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="O" Type="nvarchar" MaxLength="50" />
+    <Property Name="Login" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Voditeli">
+    <Key>
+      <PropertyRef Name="IdVoditeli" />
+    </Key>
+    <Property Name="IdVoditeli" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="F" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="I" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="O" Type="nvarchar" MaxLength="50" />
+    <Property Name="AutoPrava" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="Active" Type="bit" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Sredstva_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Sredstva" Type="Self.Sredstva" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="IdUser" />
+      </Principal>
+      <Dependent Role="Sredstva">
+        <PropertyRef Name="IdUser" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sredstva_Voditeli">
+    <End Role="Voditeli" Type="Self.Voditeli" Multiplicity="1" />
+    <End Role="Sredstva" Type="Self.Sredstva" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Voditeli">
+        <PropertyRef Name="IdVoditeli" />
+      </Principal>
+      <Dependent Role="Sredstva">
+        <PropertyRef Name="IdVoditeli" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище DaliAftotransModelContainer">
+    <EntitySet Name="Sredstva" EntityType="Self.Sredstva" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Voditeli" EntityType="Self.Voditeli" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Sredstva_User" Association="Self.FK_Sredstva_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Sredstva" EntitySet="Sredstva" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sredstva_Voditeli" Association="Self.FK_Sredstva_Voditeli">
+      <End Role="Voditeli" EntitySet="Voditeli" />
+      <End Role="Sredstva" EntitySet="Sredstva" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
